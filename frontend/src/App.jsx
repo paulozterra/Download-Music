@@ -1,36 +1,37 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useEffect, useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from './assets/vite.svg';
+import heroImg from './assets/hero.png';
+import Sidebar from './components/sidebar/Sidebar';
+import Home from './pages/Home';
+import History from './pages/History';
+import Favorites from './pages/Favorites';
+import Downloads from './pages/Downloads';
+import Configuration from './pages/Configuration';
+
 import './App.css'
 
 function App() {
 
-  const [data, setData] = useState(null);
+  const [currentPage, setCurrentPage] = useState("home");
+  
+  const renderPage = () => {
+    if(currentPage === "home") return <Home />;
+    if(currentPage === "history" ) return <History />;
+    if(currentPage === "favorites" ) return <Favorites />;
+    if(currentPage === "downloads" ) return <Downloads />;
+    if(currentPage === "configuration" ) return <Configuration/>;
 
-  useEffect(()=>{
-    fetch("http://127.0.0.1:8000/db-test")
-    .then((response)=>response.json())
-    .then((data) => {
-      console.log(data);
-      setData(data);
-    })
-    .catch((error)=>{
-      console.error(error);
-    })
-  }, []);
-
+    return <Home />;
+  };
+   
   return (
-    <div>
-      <h1>FASTAPI + REACT</h1>
-      {
-        data && (
-          <div>
-            <p>{data.message}</p>
-            <p>Resultado: {data.result}</p>
-          </div>
-        )
-      }
+    <div className="min-h-screen bg-[#0d0d1a] text-white flex flex-row ">
+      <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+
+      <main className="flex-1 p-8">
+        {renderPage()}
+      </main>
     </div>
   );
 }
