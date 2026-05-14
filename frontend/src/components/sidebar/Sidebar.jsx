@@ -11,9 +11,9 @@ import {
 function Sidebar({currentPage,setCurrentPage}){
     return (
         <aside className="border-r-2 border-r-[#2d2d4a] bg-[#1a1a2e] w-64 min-h-screen flex flex-col gap-2">
-            <div className="flex flex-col gap-5">  
+            <div className="flex flex-col">  
                 <div className="
-                flex flex-row h-25 items-center justify-center gap-3
+                flex flex-row h-20 items-center gap-3 ml-6
                 ">
                     <div className="
                     flex items-center justify-center 
@@ -24,8 +24,8 @@ function Sidebar({currentPage,setCurrentPage}){
                     shadow-[0_0_10px_#8b5cf6]
                     hover:shadow-[0_0_15px_#5918F0]
                     ">
-                        <div className="w-11 h-11 bg-[] flex items-center justify-center">
-                            <AudioLines size={23} strokeWidth={3} />
+                        <div className="w-9 h-9 bg-[] flex items-center justify-center">
+                            <AudioLines size={20} strokeWidth={3} />
                         </div>
                     </div>
                     <h1 className="
@@ -40,7 +40,7 @@ function Sidebar({currentPage,setCurrentPage}){
                     </h1>
                 </div>
                 <nav className="
-                border-1 border-blue-500
+                text-[#979b94]
                 flex flex-col justify-center
                 py-3
                 gap-1.5
