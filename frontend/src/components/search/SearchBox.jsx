@@ -1,30 +1,84 @@
 import {Download, Link } from "lucide-react"
+import { useState } from "react";
+
 
 function SearchBox(){
+    const [focus,setFocus] = useState(false);
+    const [hasError,setHasError] = useState(false);
+
     return (
         <section className="
-        flex flex-col justify-center
-        border-1 border-red-300
-        h-40
+        flex flex-col justify-center 
+        bg-[#1a1a2e] shadow-[0_0_25px_rgba(139,92,246,0.25)]
+        rounded-2xl border border-[#2d2d4a]
+        p-8 h-40
         ">   
-            <h3 className="border-1 border-red-150">Pega el enlace de una canción de YouTube</h3>
-            <form action="" className="
-                border-1 border-red-500
+            <h3 className="
+                mb-3
+                font-bold
                 ">
+                    Pega el enlace de una canción de YouTube
+            </h3>
+            <form action="" >
                 <div className="
-                    border-1 border-green-600
+                    flex
+                    justify-between
+                    gap-3
                     ">
-                    <div className="
-                        border-1 border-green-700
-                        ">
-                        <Link/>
-                        <input type="text" />
+                    <div className={
+                    `
+                        flex items-center justify-center
+                        flex-1
+                        rounded-lg
+                        border-1 border-[#2c2c49]
+                        h-10
+                        gap-3 px-4 bg-[#252540]
+                        
+                        ${
+                            focus
+                            ? "border-2 border-[#8b5cf6]"
+                            : "border border-[#2c2c49]"
+                        }
+                    `
+                    }>
+                        <Link size={20}  className=" text-[#928f89]"
+                        />
+                        <input 
+                        required
+                        className="
+                            w-full
+                            border-transparent
+                            text-sm
+                            outline-none
+                        " 
+                        onFocus={() => setFocus(true)}
+                        onBlur={() => setFocus(false)}
+                        placeholder="Pega un link de Youtube para empezar a descargar" 
+                        type="text" />
                     </div>
                     
                     <button className="
-                        border-1 border-green-800
-                        ">
-                        <Download/>
+                        px-8
+                        rounded-lg
+                        flex items-center 
+                        gap-3
+                        text-sm font-bold
+                        bg-gradient-to-r
+                        from-[#7c67f2]
+                        to-[#14acd7]
+                        hover:from-[#6c45e5] 
+                        hover:to-[#1786b9] 
+                        hover:scale-105
+                        transition-all duration-500 ease-in-out
+                        "
+                        onClick={()=>{
+                            if(!input.validity.valid){
+                                setHasError(true)
+                            }
+
+                        }}
+                        >
+                        <Download size={20} strokeWidth={2.5}/>
                         Descargar
                     </button>
                 </div>

@@ -10,8 +10,8 @@ function NavItem({
     return (
         <button
             onClick={
-                () => {setCurrentPage(page)
-                     
+                () => {
+                    setCurrentPage(page) 
                 }
             }
             className={`
