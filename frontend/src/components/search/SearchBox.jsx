@@ -1,10 +1,17 @@
 import {Download, Link } from "lucide-react"
-import { useState } from "react";
+import { useState, useRef, useEffect  } from "react";
 
 
 function SearchBox(){
     const [focus,setFocus] = useState(false);
     const [hasError,setHasError] = useState(false);
+    const [url, setUrl] = useState("");
+    const inputRef = useRef(null);
+    const [placeholder,setPlaceholder] = useState("Pega un link de Youtube para empezar a descargar")
+
+    useEffect(() => {
+    console.log("Cambió:", hasError);
+    }, [hasError]);
 
     return (
         <section className="
@@ -33,18 +40,30 @@ function SearchBox(){
                         border-1 border-[#2c2c49]
                         h-10
                         gap-3 px-4 bg-[#252540]
-                        
+
                         ${
-                            focus
-                            ? "border-2 border-[#8b5cf6]"
-                            : "border border-[#2c2c49]"
+                            hasError
+                            ? "border-2 border-[#ff4d9d] text-[#ff4d9d]"
+                            : focus
+                                ? "border-2 border-[#8b5cf6]"
+                                : "border border-[#2c2c49]"
                         }
                     `
                     }>
-                        <Link size={20}  className=" text-[#928f89]"
+                        <Link size={20}  className={`
+                        text-[#928f89]
+                            ${
+                                hasError
+                                ? "text-[#ff4d9d]"
+                                : ""
+                            }
+                        `
+                        }
+                    
                         />
                         <input 
                         required
+                        ref={inputRef}
                         className="
                             w-full
                             border-transparent
@@ -53,8 +72,8 @@ function SearchBox(){
                         " 
                         onFocus={() => setFocus(true)}
                         onBlur={() => setFocus(false)}
-                        placeholder="Pega un link de Youtube para empezar a descargar" 
-                        type="text" />
+                        placeholder={placeholder} 
+                        type="url" />
                     </div>
                     
                     <button className="
@@ -72,8 +91,18 @@ function SearchBox(){
                         transition-all duration-500 ease-in-out
                         "
                         onClick={()=>{
-                            if(!input.validity.valid){
-                                setHasError(true)
+                            console.log(inputRef.current.validity.valid);
+                            if(inputRef.current.validity.valid === false){
+
+                                setHasError(true);
+                                setPlaceholder("Ingresa una URL válida"); 
+
+                                setTimeout(()=>{
+
+                                    setHasError(false);
+                                    setPlaceholder("Pega un link de Youtube para empezar a descargar");
+
+                                 },3000);
                             }
 
                         }}
