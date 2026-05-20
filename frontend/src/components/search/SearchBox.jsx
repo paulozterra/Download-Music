@@ -7,11 +7,30 @@ function SearchBox(){
     const [hasError,setHasError] = useState(false);
     const [url, setUrl] = useState("");
     const inputRef = useRef(null);
-    const [placeholder,setPlaceholder] = useState("Pega un link de Youtube para empezar a descargar")
 
-    useEffect(() => {
-    console.log("Cambió:", hasError);
-    }, [hasError]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if(inputRef.current.validity.valid === false){
+
+            setHasError(true);
+
+            setTimeout(()=>{
+
+                setHasError(false);
+
+            },3000);
+
+            return;
+        }
+
+        else{
+
+            console.log(url);
+        
+        }
+    }
 
     return (
         <section className="
@@ -26,7 +45,7 @@ function SearchBox(){
                 ">
                     Pega el enlace de una canción de YouTube
             </h3>
-            <form action="" >
+            <form onSubmit={handleSubmit} action=""  noValidate>
                 <div className="
                     flex
                     justify-between
@@ -63,6 +82,8 @@ function SearchBox(){
                         />
                         <input 
                         required
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
                         ref={inputRef}
                         className="
                             w-full
@@ -72,7 +93,11 @@ function SearchBox(){
                         " 
                         onFocus={() => setFocus(true)}
                         onBlur={() => setFocus(false)}
-                        placeholder={placeholder} 
+                        placeholder={
+                            hasError
+                            ? "Ingresa una URL válida"
+                            : "Pega un link de Youtube para empezar a descargar"
+                        } 
                         type="url" />
                     </div>
                     
@@ -90,22 +115,8 @@ function SearchBox(){
                         hover:scale-105
                         transition-all duration-500 ease-in-out
                         "
-                        onClick={()=>{
-                            console.log(inputRef.current.validity.valid);
-                            if(inputRef.current.validity.valid === false){
-
-                                setHasError(true);
-                                setPlaceholder("Ingresa una URL válida"); 
-
-                                setTimeout(()=>{
-
-                                    setHasError(false);
-                                    setPlaceholder("Pega un link de Youtube para empezar a descargar");
-
-                                 },3000);
-                            }
-
-                        }}
+                        type = "submit"
+                    
                         >
                         <Download size={20} strokeWidth={2.5}/>
                         Descargar

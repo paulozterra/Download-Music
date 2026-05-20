@@ -12,6 +12,11 @@ class Settings(BaseSettings):
     db_name: str
     db_user: str
     db_password: str
+    db_secret_key: str
+    db_algorithm: str
+    db_access_token_expire_minute: int
+
+    cors_origins: list[str] = ["http://localhost:5173"]
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,
