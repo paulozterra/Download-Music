@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     db_password: str
     db_secret_key: str
     db_algorithm: str
-    db_access_token_expire_minute: int
+    db_access_token_expire_minutes: int
 
     cors_origins: list[str] = ["http://localhost:5173"]
 
