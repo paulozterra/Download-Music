@@ -1,22 +1,48 @@
  import { useState, useRef } from "react";
+ import { apiFetch } from "../../services/fetchClient";
+ import { useNavigate } from "react-router-dom";
 
 function LoginForm(){
     const [email, setEmail] =  useState("");
     const [password, setPassword] =  useState("");
     const [remember, setRemember] = useState(false);
+    const [emailError,setEmailError] = useState(false);
+    const [focusEmail, setFocusEmail] = useState(true);
+    const [focusPassword, setFocusPassword] = useState(false);
+    
     const inputEmailRef = useRef(null); 
     const inputPasswordRef = useRef(null); 
     const rememberRef = useRef(null);
 
-    const [emailError, setEmailError] = UseState(false);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const handleSubmit = (event) =>{
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) =>{
         event.preventDefault();
 
         console.log("Email:", email);
         console.log("Password:", password);
         console.log("remember:", remember);
+        console.log("emailError",emailError);
+
+        try{
+            const data = await apiFetch(
+                "/auth/login",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                }
+            )
+            navigate("/home");
+        }
+        catch(error){
+            console.error(error);
+        }
+        
     };
 
     return (
@@ -40,27 +66,40 @@ function LoginForm(){
 
                         <input 
                         required
-                        value = {email}
+                        value = {email}  
+                        onFocus={()=>setFocusEmail(true)}
+                        onBlur={()=>setFocusEmail(false)}
                         onChange={(e) =>{
                             setEmail(e.target.value);
+                            console.log(emailRegex.test(e.target.value));
                             
-                            if(!emailRegex.test(e.target.value)){
+                            if(emailRegex.test(e.target.value)){
+                                setEmailError(false);
+                            }
+                            else{
                                 setEmailError(true);
                             }
+                            
                         } }
                         ref={inputEmailRef}
                         placeholder="tu@email.com"
-                        className="
-                        p-5
-                        h-10
-                        bg-[#1e1e35]
-                        rounded-lg
-                        border-1 border-[#2b2b47]
-                        outline-none
-                        focus:border-[#8b5cf6]
-                        flex items-center justify-center
-                        text-[#7C8094] text-xs font-bold
-                        "
+                        className={`
+                            p-5
+                            h-10
+                            bg-[#1e1e35]
+                            rounded-lg
+                            outline-none
+                            focus:border-[#8b5cf6]
+                            flex items-center justify-center
+                            text-xs font-bold
+                            ${
+                                (!focusEmail && emailError) //|| !focusEmail
+                                ?"border-2 border-[#ff4d9d] text-[#ff4d9d]"
+                                :"border-1 border-[#2b2b47] text-[#7C8094]"
+                                
+                            }
+                            `
+                        }                           
                         type="email" />
                     </div>
 
@@ -79,20 +118,27 @@ function LoginForm(){
                         <input type="password" 
                         required
                         value = {password}
+                        onFocus={()=>setFocusPassword(true)}
+                        onBlur={()=>setFocusPassword(false)}
                         onChange={(e) => setPassword(e.target.value)}
                         ref={inputPasswordRef}
                         placeholder="********"
-                        className="
-                        h-10
-                        bg-[#1e1e35]
-                        rounded-lg
-                        p-5
-                        outline-none
-                        border-1 border-[#2b2b47]
-                        focus:border-[#8b5cf6]
-                        flex items-center justify-center
-                        text-[#7C8094] text-xs font-bold
-                        "/>
+                        className={`
+                            h-10
+                            bg-[#1e1e35]
+                            rounded-lg
+                            p-5
+                            outline-none
+                            focus:border-[#8b5cf6]
+                            flex items-center justify-center
+                            text-xs font-bold
+                             ${
+                                !focusPassword && inputPasswordRef.current?.value=== ""
+                                ?"border-2 border-[#ff4d9d] text-[#ff4d9d]"
+                                :"border-1 border-[#2b2b47] text-[#7C8094]"
+                            }
+                            `
+                        }/>
                     </div>
 
                     <div className="

@@ -10,41 +10,30 @@ import Downloads from './pages/Downloads';
 import Configuration from './pages/Configuration';
 import Header from './components/header/Header';
 import Login from './pages/Login';
+import {
+    BrowserRouter,
+    Routes,
+    Route
+ } from "react-router-dom";
 
 import './App.css'
 
 function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path='/'
+          element={<Login/>}
+        />
 
-  // const [currentPage, setCurrentPage] = useState("home");
-  
-  // const renderPage = () => {
-  //   if(currentPage === "login") return <Login />;
-  //   if(currentPage === "home") return <Home />;
-  //   if(currentPage === "history" ) return <History />;
-  //   if(currentPage === "favorites" ) return <Favorites />;
-  //   if(currentPage === "downloads" ) return <Downloads />;
-  //   if(currentPage === "configuration" ) return <Configuration/>;
-
-  //   return <Home />;
-  // };
-   
-  // return (
-  //   <div className="min-h-screen bg-[#0d0d1a] text-white flex flex-row ">
-
-  //     <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-
-  //     <div className="flex-1 min-h-screen">
-
-  //       <Header/>
-  //       <main className="flex-1 p-8">
-  //               {renderPage()}
-  //       </main>
-
-  //     </div>
-
-  //   </div>
-  // );
-  return <Login/>;
+        <Route
+          path='/home'
+          element={<Home/>}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
